@@ -1,0 +1,198 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# ==========================================================
+# vc_paths.mdc  ―  "VC業界特化パス辞書"
+# ==========================================================
+# VC（ベンチャーキャピタル）業界のワークフローに最適化されたパス設定
+# 最終更新: 2025-05-29 - VC特化AIPM Ruleセット v1.0
+
+# ----
+# 0. ルートディレクトリ
+# ----
+root: "/Users/daisukemiyata/{{PROJECT_ROOT}}"
+
+# ----
+# 1. 主要ディレクトリ（相対パス）
+# ----
+dirs:
+  # ─ Flow（WIP／ドラフト／議事録など）
+  flow:           "{{root}}/Flow"
+  flow_templates: "{{rules_vc_templates}}"
+
+  # ─ Stock（確定版ドキュメント）
+  stock:          "{{root}}/Stock"
+  stock_templates:"{{dirs.stock}}/shared/templates"
+  
+  # ─ プログラム/プロジェクト構造
+  programs:       "{{dirs.stock}}/programs"
+  
+  # ─ アーカイブ（完了 or 旧バージョン格納）
+  archived:       "{{root}}/Archived"
+
+  # ─ ルールファイル
+  rules:          "{{root}}/.cursor/rules"
+  rules_basic:    "{{dirs.rules}}/basic"
+  rules_vc:       "{{dirs.rules}}/vc"
+  vc_templates:   "{{dirs.rules}}/vc/templates"
+
+  # ─ VC特化ディレクトリ
+  vc_funds:       "{{dirs.programs}}/vc_funds"
+  portfolio:      "{{dirs.vc_funds}}/portfolio"
+  investments:    "{{dirs.vc_funds}}/investments"
+  
+  # ─ スクリプト
+  scripts:        "{{root}}/scripts"
+
+# ----
+# 2. 動的パターン
+# ----
+patterns:
+  # ---- Flow 側 ----
+  # 年月フォルダと日付フォルダの新しい階層構造
+  flow_yearmonth:     "{{dirs.flow}}/{{today | slice: 0, 4}}{{today | slice: 5, 2}}"  # 例) Flow/202505
+  flow_date:          "{{patterns.flow_yearmonth}}/{{today}}"  # 例) Flow/202505/2025-05-29
+  
+  # VC専用フォルダ
+  flow_vc:            "{{patterns.flow_date}}/vc"
+  
+  # ---- Deal Sourcing & Screening フェーズ ----
+  # 投資機会評価
+  draft_opportunity_assessment: "{{patterns.flow_vc}}/draft_opportunity_assessment_{{target_company | slugify}}.md"
+  draft_screening:              "{{patterns.flow_vc}}/draft_initial_screening_{{target_company | slugify}}.md"
+  draft_market_analysis:        "{{patterns.flow_vc}}/draft_market_analysis_{{target_company | slugify}}.md"
+  
+  # ---- Due Diligence フェーズ ----
+  dd_dir:                    "{{patterns.flow_vc}}/due_diligence"
+  draft_commercial_dd:       "{{patterns.dd_dir}}/draft_commercial_dd_{{target_company | slugify}}.md"
+  draft_financial_dd:        "{{patterns.dd_dir}}/draft_financial_dd_{{target_company | slugify}}.md"
+  draft_technical_dd:        "{{patterns.dd_dir}}/draft_technical_dd_{{target_company | slugify}}.md"
+  draft_legal_dd:            "{{patterns.dd_dir}}/draft_legal_dd_{{target_company | slugify}}.md"
+  draft_management_assessment: "{{patterns.dd_dir}}/draft_management_assessment_{{target_company | slugify}}.md"
+  
+  # ---- Investment Decision フェーズ ----
+  decision_dir:              "{{patterns.flow_vc}}/investment_decision"
+  draft_investment_memo:     "{{patterns.decision_dir}}/draft_investment_memo_{{target_company | slugify}}.md"
+  draft_term_sheet:          "{{patterns.decision_dir}}/draft_term_sheet_{{target_company | slugify}}.md"
+  draft_valuation:           "{{patterns.decision_dir}}/draft_valuation_analysis_{{target_company | slugify}}.md"
+  draft_ic_presentation:     "{{patterns.decision_dir}}/draft_ic_presentation_{{target_company | slugify}}.md"
+  
+  # ---- Portfolio Management フェーズ ----
+  portfolio_dir:             "{{patterns.flow_vc}}/portfolio"
+  draft_portfolio_monitoring: "{{patterns.portfolio_dir}}/draft_portfolio_monitoring_{{portfolio_company | slugify}}.md"
+  draft_board_meeting:       "{{patterns.portfolio_dir}}/draft_board_meeting_{{portfolio_company | slugify}}_{{meeting_date}}.md"
+  draft_performance_tracking: "{{patterns.portfolio_dir}}/draft_performance_tracking_{{portfolio_company | slugify}}.md"
+  draft_value_creation:      "{{patterns.portfolio_dir}}/draft_value_creation_plan_{{portfolio_company | slugify}}.md"
+  
+  # ---- Exit Strategy フェーズ ----
+  exit_dir:                  "{{patterns.flow_vc}}/exit_strategy"
+  draft_exit_planning:       "{{patterns.exit_dir}}/draft_exit_planning_{{portfolio_company | slugify}}.md"
+  draft_ipo_readiness:       "{{patterns.exit_dir}}/draft_ipo_readiness_{{portfolio_company | slugify}}.md"
+  draft_ma_strategy:         "{{patterns.exit_dir}}/draft_ma_strategy_{{portfolio_company | slugify}}.md"
+  draft_return_analysis:     "{{patterns.exit_dir}}/draft_return_analysis_{{portfolio_company | slugify}}.md"
+  
+  # ---- 会議・その他 ----
+  draft_vc_minutes:          "{{patterns.flow_vc}}/draft_meeting_minutes_{{meeting_type}}_{{meeting_date}}.md"
+  draft_quarterly_report:    "{{patterns.flow_vc}}/draft_quarterly_report_{{quarter}}_{{year}}.md"
+
+  # ---- プログラム/プロジェクト構造 ---
+  vc_program_dir:            "{{dirs.programs}}/{{fund_name}}"
+  vc_investment_dir:         "{{patterns.vc_program_dir}}/investments/{{target_company}}"
+  vc_docs_root:              "{{patterns.vc_investment_dir}}/documents"
+  
+  # プロセス別フォルダ（VC投資プロセス）
+  vc_doc_sourcing:           "{{patterns.vc_docs_root}}/1_deal_sourcing"
+  vc_doc_screening:          "{{patterns.vc_docs_root}}/2_screening"
+  vc_doc_due_diligence:      "{{patterns.vc_docs_root}}/3_due_diligence"
+  vc_doc_investment_decision: "{{patterns.vc_docs_root}}/4_investment_decision"
+  vc_doc_portfolio:          "{{patterns.vc_docs_root}}/5_portfolio_management"
+  vc_doc_exit:               "{{patterns.vc_docs_root}}/6_exit_strategy"
+  
+  # ---- Stock: Deal Sourcing ----
+  stock_opportunity_assessment: "{{patterns.vc_doc_sourcing}}/opportunity_assessment.md"
+  stock_market_analysis:       "{{patterns.vc_doc_sourcing}}/market_analysis.md"
+  
+  # ---- Stock: Screening ----
+  stock_screening:             "{{patterns.vc_doc_screening}}/initial_screening.md"
+  stock_competitive_analysis:  "{{patterns.vc_doc_screening}}/competitive_analysis.md"
+  
+  # ---- Stock: Due Diligence ----
+  stock_commercial_dd:         "{{patterns.vc_doc_due_diligence}}/commercial_dd.md"
+  stock_financial_dd:          "{{patterns.vc_doc_due_diligence}}/financial_dd.md"
+  stock_technical_dd:          "{{patterns.vc_doc_due_diligence}}/technical_dd.md"
+  stock_legal_dd:              "{{patterns.vc_doc_due_diligence}}/legal_dd.md"
+  stock_management_assessment: "{{patterns.vc_doc_due_diligence}}/management_assessment.md"
+  
+  # ---- Stock: Investment Decision ----
+  stock_investment_memo:       "{{patterns.vc_doc_investment_decision}}/investment_memo.md"
+  stock_term_sheet:            "{{patterns.vc_doc_investment_decision}}/term_sheet.md"
+  stock_valuation:             "{{patterns.vc_doc_investment_decision}}/valuation_analysis.md"
+  stock_ic_presentation:       "{{patterns.vc_doc_investment_decision}}/ic_presentation.md"
+  
+  # ---- Stock: Portfolio Management ----
+  stock_portfolio_monitoring:  "{{patterns.vc_doc_portfolio}}/portfolio_monitoring.md"
+  stock_board_meetings:        "{{patterns.vc_doc_portfolio}}/board_meetings"
+  stock_performance_tracking:  "{{patterns.vc_doc_portfolio}}/performance_tracking.md"
+  stock_value_creation:        "{{patterns.vc_doc_portfolio}}/value_creation_plan.md"
+  
+  # ---- Stock: Exit Strategy ----
+  stock_exit_planning:         "{{patterns.vc_doc_exit}}/exit_planning.md"
+  stock_ipo_readiness:         "{{patterns.vc_doc_exit}}/ipo_readiness.md"
+  stock_ma_strategy:           "{{patterns.vc_doc_exit}}/ma_strategy.md"
+  stock_return_analysis:       "{{patterns.vc_doc_exit}}/return_analysis.md"
+
+# ----
+# 3. 便利変数（任意拡張）
+# ----
+meta:
+  today:           "{{env.NOW:date:YYYY-MM-DD}}"
+  week_end_date:   "{{env.WEEK_END:date:YYYY-MM-DD}}"
+  fund_name:       "{{env.FUND_NAME}}"        # ファンド名
+  target_company:  "{{env.TARGET_COMPANY}}"   # 投資検討対象企業名
+  portfolio_company: "{{env.PORTFOLIO_COMPANY}}" # ポートフォリオ企業名
+  
+  # ---- VC特化変数 ---
+  investment_stage:  ""      # 投資ステージ（Seed, Series A, etc.）
+  sector:           ""       # 業界セクター
+  deal_size:        ""       # 投資規模
+  valuation:        ""       # 企業価値評価
+  meeting_type:     ""       # 会議タイプ
+  meeting_date:     ""       # 会議日付
+  quarter:          ""       # 四半期
+  year:             ""       # 年
+  
+  # ---- 投資ステージ選択肢 ----
+  investment_stages: [
+    "Pre-Seed",
+    "Seed",
+    "Series A",
+    "Series B",
+    "Series C",
+    "Series D+",
+    "Growth/Late Stage",
+    "Pre-IPO"
+  ]
+  
+  # ---- セクター選択肢 ----
+  sectors: [
+    "SaaS/Enterprise Software",
+    "Fintech",
+    "Healthcare/Biotech",
+    "EdTech",
+    "E-commerce/Marketplace",
+    "Consumer Apps",
+    "AI/ML",
+    "IoT/Hardware",
+    "Mobility/Transportation",
+    "Real Estate Tech",
+    "Gaming",
+    "Media/Content",
+    "Energy/CleanTech",
+    "Agriculture Tech",
+    "その他"
+  ]
+  
+  # ---- バージョン情報 ---
+  version:       "v1.0"  # ドキュメントバージョン

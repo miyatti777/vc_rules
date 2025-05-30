@@ -1,0 +1,587 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# ========== 最終更新: 2025-05-29 16:00 (VC特化AIPM Ruleセット v1.0)==================
+# 00_master_rules_vc.mdc
+# VC（ベンチャーキャピタル）業界特化AIPM システム
+# ベンチャーキャピタルの投資プロセス、ポートフォリオ管理、Due Diligence、Exit戦略を支援
+
+path_reference: "vc/vc_paths.mdc"
+
+master_triggers:
+
+#============================
+# フェーズ1: Deal Sourcing & Screening
+#============================
+
+#-----
+# VC業界ルール紹介
+#-----
+- trigger: "(VC|Venture Capital|投資|投資検討)"
+  priority: high
+  steps:
+    - message: |
+        VC業界特化AIPM システムでは以下の投資プロセスを支援できます：
+        
+        【Deal Sourcing & Screening】
+        - **Investment Opportunity Assessment**：「投資機会評価」と入力
+        - **Initial Screening Report**：「初期スクリーニング」と入力
+        - **Market Analysis**：「市場分析」と入力
+        
+        【Due Diligence】
+        - **Commercial Due Diligence**：「商業DD」と入力
+        - **Financial Due Diligence**：「財務DD」と入力
+        - **Technical Due Diligence**：「技術DD」と入力
+        - **Legal Due Diligence**：「法務DD」と入力
+        - **Management Assessment**：「経営陣評価」と入力
+        
+        【Investment Decision】
+        - **Investment Memo作成**：「Investment Memo」と入力
+        - **Term Sheet作成**：「Term Sheet」と入力
+        - **Valuation Analysis**：「バリュエーション分析」と入力
+        - **Investment Committee Presentation**：「投資委員会資料」と入力
+        
+        【Portfolio Management】
+        - **Portfolio Monitoring**：「ポートフォリオ監視」と入力
+        - **Board Meeting準備**：「取締役会準備」と入力
+        - **Performance Tracking**：「パフォーマンス追跡」と入力
+        - **Value Creation Planning**：「価値創造計画」と入力
+        
+        【Exit Strategy】
+        - **Exit Planning**：「Exit計画」と入力
+        - **IPO Readiness Assessment**：「IPO準備評価」と入力
+        - **M&A Strategy**：「M&A戦略」と入力
+        - **Return Analysis**：「リターン分析」と入力
+
+#-----
+# Investment Opportunity Assessment
+#-----
+- trigger: "(投資機会評価|Investment Opportunity Assessment)"
+  priority: high
+  steps:
+    - name: "start_opportunity_assessment"
+      action: "call vc/01_vc_deal_sourcing.mdc => opportunity_assessment_questions"
+      message: "【投資機会評価】投資対象企業の初期評価に必要な情報を収集します。以下の質問に回答してください。"
+    - name: "wait_user_responses"
+      action: "wait_for_all_answers"
+    - name: "confirm_document_creation"
+      action: "confirm"
+      message: "収集した情報で投資機会評価レポートを作成します。よろしいですか？"
+    - name: "create_draft"
+      action: "create_markdown_file"
+      path: "{{patterns.draft_opportunity_assessment}}"
+      template_reference: "vc/01_vc_deal_sourcing.mdc => opportunity_assessment_template"
+      message: "投資機会評価レポートのドラフトを作成しました。"
+    - name: "notify_completion"
+      action: "notify"
+      message: |
+        投資機会評価レポートのドラフトを作成しました：
+        {{patterns.draft_opportunity_assessment}}
+        
+        修正後「確定反映して」と入力するとStockディレクトリに保存されます。
+        次のステップ：「初期スクリーニング」で詳細な評価を実施
+
+#-----
+# Initial Screening Report
+#-----
+- trigger: "(初期スクリーニング|Initial Screening)"
+  priority: high
+  steps:
+    - name: "start_screening"
+      action: "call vc/01_vc_deal_sourcing.mdc => screening_questions"
+      message: "【初期スクリーニング】投資対象の詳細スクリーニングに必要な情報を収集します。"
+    - name: "wait_user_responses"
+      action: "wait_for_all_answers"
+    - name: "confirm_document_creation"
+      action: "confirm"
+      message: "収集した情報で初期スクリーニングレポートを作成します。よろしいですか？"
+    - name: "create_draft"
+      action: "create_markdown_file"
+      path: "{{patterns.draft_screening}}"
+      template_reference: "vc/01_vc_deal_sourcing.mdc => screening_template"
+    - name: "notify_completion"
+      action: "notify"
+      message: |
+        初期スクリーニングレポートのドラフトを作成しました：
+        {{patterns.draft_screening}}
+        
+        次のステップ：「市場分析」で市場環境を詳しく分析
+
+#-----
+# Market Analysis
+#-----
+- trigger: "(市場分析|Market Analysis)"
+  priority: high
+  steps:
+    - name: "collect_market_requirements"
+      action: "ask_questions"
+      questions:
+        - key: "target_company"
+          question: "分析対象企業名を入力してください"
+          required: true
+        - key: "industry_sector"
+          question: "業界・セクターを入力してください"
+          required: true
+        - key: "business_model"
+          question: "ビジネスモデルを簡潔に説明してください"
+          required: true
+        - key: "target_market"
+          question: "ターゲット市場を具体的に教えてください"
+          required: true
+        - key: "competitive_landscape"
+          question: "主要競合企業があれば教えてください（カンマ区切り）"
+          required: false
+      store_as: "market_params"
+    - name: "confirm_market_analysis"
+      action: "confirm"
+      message: "以下の内容で市場分析を実施します：\n\n企業: {{market_params.target_company}}\n業界: {{market_params.industry_sector}}\nターゲット市場: {{market_params.target_market}}\n\nWeb検索による市場調査を開始してよろしいですか？"
+    - name: "web_research_market_size"
+      action: "web_search"
+      search_term: "{{market_params.industry_sector}} {{market_params.target_market}} 市場規模 TAM SAM SOM 2024 2025"
+      explanation: "対象市場の規模と成長性を調査します"
+      store_as: "market_size_data"
+    - name: "web_research_growth_trends"
+      action: "web_search"
+      search_term: "{{market_params.industry_sector}} 成長トレンド 将来予測 技術革新 規制動向"
+      explanation: "市場の成長トレンドと将来性を調査します"
+      store_as: "growth_trends_data"
+    - name: "web_research_competitors"
+      action: "web_search"
+      search_term: "{{market_params.competitive_landscape}} {{market_params.industry_sector}} 競合分析 市場シェア"
+      explanation: "競合企業の分析を実施します"
+      store_as: "competitor_data"
+    - name: "analyze_market_research"
+      action: "analyze"
+      data: ["{{market_size_data}}", "{{growth_trends_data}}", "{{competitor_data}}"]
+      instructions: "収集した市場データを分析し、TAM/SAM/SOM、成長性、競合環境、投資機会を評価します"
+      store_as: "market_analysis_results"
+    - name: "create_draft"
+      action: "create_markdown_file"
+      path: "{{patterns.draft_market_analysis}}"
+      template_reference: "vc/01_vc_deal_sourcing.mdc => market_analysis_template"
+      data_mapping:
+        target_company: "{{market_params.target_company}}"
+        industry_sector: "{{market_params.industry_sector}}"
+        business_model: "{{market_params.business_model}}"
+        target_market: "{{market_params.target_market}}"
+        market_size: "{{market_analysis_results.market_size}}"
+        growth_trends: "{{market_analysis_results.growth_trends}}"
+        competitive_analysis: "{{market_analysis_results.competitive_analysis}}"
+        investment_implications: "{{market_analysis_results.investment_implications}}"
+    - name: "notify_completion"
+      action: "notify"
+      message: |
+        市場分析レポートのドラフトを作成しました：
+        {{patterns.draft_market_analysis}}
+        
+        Web検索結果をもとに市場規模、成長性、競合環境を詳細分析しました。
+        次のステップ：Due Diligenceフェーズで「商業DD」「財務DD」などの詳細調査
+
+#============================
+# フェーズ2: Due Diligence
+#============================
+
+#-----
+# Commercial Due Diligence
+#-----
+- trigger: "(商業DD|Commercial Due Diligence)"
+  priority: high
+  steps:
+    - name: "start_commercial_dd"
+      action: "call vc/02_vc_due_diligence.mdc => commercial_dd_questions"
+      message: "【商業DD】ビジネスモデル、市場ポジション、収益性の詳細調査を実施します。"
+    - name: "wait_user_responses"
+      action: "wait_for_all_answers"
+    - name: "confirm_document_creation"
+      action: "confirm"
+      message: "収集した情報で商業DDレポートを作成します。よろしいですか？"
+    - name: "create_draft"
+      action: "create_markdown_file"
+      path: "{{patterns.draft_commercial_dd}}"
+      template_reference: "vc/02_vc_due_diligence.mdc => commercial_dd_template"
+    - name: "notify_completion"
+      action: "notify"
+      message: |
+        商業DDレポートのドラフトを作成しました：
+        {{patterns.draft_commercial_dd}}
+
+#-----
+# Financial Due Diligence
+#-----
+- trigger: "(財務DD|Financial Due Diligence)"
+  priority: high
+  steps:
+    - name: "start_financial_dd"
+      action: "call vc/02_vc_due_diligence.mdc => financial_dd_questions"
+      message: "【財務DD】財務諸表、キャッシュフロー、収益性の詳細分析を実施します。"
+    - name: "wait_user_responses"
+      action: "wait_for_all_answers"
+    - name: "confirm_document_creation"
+      action: "confirm"
+      message: "収集した情報で財務DDレポートを作成します。よろしいですか？"
+    - name: "create_draft"
+      action: "create_markdown_file"
+      path: "{{patterns.draft_financial_dd}}"
+      template_reference: "vc/02_vc_due_diligence.mdc => financial_dd_template"
+    - name: "notify_completion"
+      action: "notify"
+      message: |
+        財務DDレポートのドラフトを作成しました：
+        {{patterns.draft_financial_dd}}
+
+#-----
+# Technical Due Diligence
+#-----
+- trigger: "(技術DD|Technical Due Diligence)"
+  priority: high
+  steps:
+    - name: "start_technical_dd"
+      action: "call vc/02_vc_due_diligence.mdc => technical_dd_questions"
+      message: "【技術DD】技術スタック、知的財産、技術的優位性の評価を実施します。"
+    - name: "wait_user_responses"
+      action: "wait_for_all_answers"
+    - name: "confirm_document_creation"
+      action: "confirm"
+      message: "収集した情報で技術DDレポートを作成します。よろしいですか？"
+    - name: "create_draft"
+      action: "create_markdown_file"
+      path: "{{patterns.draft_technical_dd}}"
+      template_reference: "vc/02_vc_due_diligence.mdc => technical_dd_template"
+    - name: "notify_completion"
+      action: "notify"
+      message: |
+        技術DDレポートのドラフトを作成しました：
+        {{patterns.draft_technical_dd}}
+
+#-----
+# Management Assessment
+#-----
+- trigger: "(経営陣評価|Management Assessment)"
+  priority: high
+  steps:
+    - name: "start_management_assessment"
+      action: "call vc/02_vc_due_diligence.mdc => management_assessment_questions"
+      message: "【経営陣評価】経営チーム、ガバナンス、実行力の詳細評価を実施します。"
+    - name: "wait_user_responses"
+      action: "wait_for_all_answers"
+    - name: "confirm_document_creation"
+      action: "confirm"
+      message: "収集した情報で経営陣評価レポートを作成します。よろしいですか？"
+    - name: "create_draft"
+      action: "create_markdown_file"
+      path: "{{patterns.draft_management_assessment}}"
+      template_reference: "vc/02_vc_due_diligence.mdc => management_assessment_template"
+    - name: "notify_completion"
+      action: "notify"
+      message: |
+        経営陣評価レポートのドラフトを作成しました：
+        {{patterns.draft_management_assessment}}
+
+#============================
+# フェーズ3: Investment Decision
+#============================
+
+#-----
+# Investment Memo
+#-----
+- trigger: "(Investment Memo|投資メモ|投資検討書)"
+  priority: high
+  steps:
+    - name: "start_investment_memo"
+      action: "call vc/03_vc_investment_decision.mdc => investment_memo_questions"
+      message: "【Investment Memo】投資委員会向けの総合的な投資検討書を作成します。"
+    - name: "wait_user_responses"
+      action: "wait_for_all_answers"
+    - name: "confirm_document_creation"
+      action: "confirm"
+      message: "収集した情報でInvestment Memoを作成します。よろしいですか？"
+    - name: "create_draft"
+      action: "create_markdown_file"
+      path: "{{patterns.draft_investment_memo}}"
+      template_reference: "vc/03_vc_investment_decision.mdc => investment_memo_template"
+    - name: "notify_completion"
+      action: "notify"
+      message: |
+        Investment Memoのドラフトを作成しました：
+        {{patterns.draft_investment_memo}}
+
+#-----
+# Term Sheet
+#-----
+- trigger: "(Term Sheet|タームシート|投資条件書)"
+  priority: high
+  steps:
+    - name: "start_term_sheet"
+      action: "call vc/03_vc_investment_decision.mdc => term_sheet_questions"
+      message: "【Term Sheet】投資条件・契約条件の詳細を定義します。"
+    - name: "wait_user_responses"
+      action: "wait_for_all_answers"
+    - name: "confirm_document_creation"
+      action: "confirm"
+      message: "収集した情報でTerm Sheetを作成します。よろしいですか？"
+    - name: "create_draft"
+      action: "create_markdown_file"
+      path: "{{patterns.draft_term_sheet}}"
+      template_reference: "vc/03_vc_investment_decision.mdc => term_sheet_template"
+    - name: "notify_completion"
+      action: "notify"
+      message: |
+        Term Sheetのドラフトを作成しました：
+        {{patterns.draft_term_sheet}}
+
+#-----
+# Valuation Analysis
+#-----
+- trigger: "(バリュエーション分析|Valuation Analysis)"
+  priority: high
+  steps:
+    - name: "start_valuation_analysis"
+      action: "call vc/03_vc_investment_decision.mdc => valuation_questions"
+      message: "【バリュエーション分析】企業価値評価と投資条件の分析を実施します。"
+    - name: "wait_user_responses"
+      action: "wait_for_all_answers"
+    - name: "confirm_document_creation"
+      action: "confirm"
+      message: "収集した情報でバリュエーション分析レポートを作成します。よろしいですか？"
+    - name: "create_draft"
+      action: "create_markdown_file"
+      path: "{{patterns.draft_valuation}}"
+      template_reference: "vc/03_vc_investment_decision.mdc => valuation_template"
+    - name: "notify_completion"
+      action: "notify"
+      message: |
+        バリュエーション分析レポートのドラフトを作成しました：
+        {{patterns.draft_valuation}}
+
+#-----
+# Investment Committee Presentation
+#-----
+- trigger: "(投資委員会資料|Investment Committee)"
+  priority: high
+  steps:
+    - name: "start_ic_presentation"
+      action: "call vc/03_vc_investment_decision.mdc => ic_presentation_questions"
+      message: "【投資委員会資料】投資委員会向けプレゼンテーション資料を作成します。"
+    - name: "wait_user_responses"
+      action: "wait_for_all_answers"
+    - name: "confirm_document_creation"
+      action: "confirm"
+      message: "収集した情報で投資委員会プレゼン資料を作成します。よろしいですか？"
+    - name: "create_draft"
+      action: "create_markdown_file"
+      path: "{{patterns.draft_ic_presentation}}"
+      template_reference: "vc/03_vc_investment_decision.mdc => ic_presentation_template"
+    - name: "notify_completion"
+      action: "notify"
+      message: |
+        投資委員会プレゼン資料のドラフトを作成しました：
+        {{patterns.draft_ic_presentation}}
+
+#============================
+# フェーズ4: Portfolio Management
+#============================
+
+#-----
+# Portfolio Monitoring
+#-----
+- trigger: "(ポートフォリオ監視|Portfolio Monitoring)"
+  priority: high
+  steps:
+    - name: "start_portfolio_monitoring"
+      action: "call vc/04_vc_portfolio.mdc => monitoring_questions"
+      message: "【ポートフォリオ監視】投資先企業のパフォーマンス監視レポートを作成します。"
+    - name: "wait_user_responses"
+      action: "wait_for_all_answers"
+    - name: "confirm_document_creation"
+      action: "confirm"
+      message: "収集した情報でポートフォリオ監視レポートを作成します。よろしいですか？"
+    - name: "create_draft"
+      action: "create_markdown_file"
+      path: "{{patterns.draft_portfolio_monitoring}}"
+      template_reference: "vc/04_vc_portfolio.mdc => monitoring_template"
+    - name: "notify_completion"
+      action: "notify"
+      message: |
+        ポートフォリオ監視レポートのドラフトを作成しました：
+        {{patterns.draft_portfolio_monitoring}}
+
+#-----
+# Board Meeting準備
+#-----
+- trigger: "(取締役会準備|Board Meeting)"
+  priority: high
+  steps:
+    - name: "start_board_prep"
+      action: "call vc/04_vc_portfolio.mdc => board_meeting_questions"
+      message: "【取締役会準備】取締役会資料とアジェンダを準備します。"
+    - name: "wait_user_responses"
+      action: "wait_for_all_answers"
+    - name: "confirm_document_creation"
+      action: "confirm"
+      message: "収集した情報で取締役会資料を作成します。よろしいですか？"
+    - name: "create_draft"
+      action: "create_markdown_file"
+      path: "{{patterns.draft_board_meeting}}"
+      template_reference: "vc/04_vc_portfolio.mdc => board_meeting_template"
+    - name: "notify_completion"
+      action: "notify"
+      message: |
+        取締役会資料のドラフトを作成しました：
+        {{patterns.draft_board_meeting}}
+
+#============================
+# フェーズ5: Exit Strategy
+#============================
+
+#-----
+# Exit Planning
+#-----
+- trigger: "(Exit計画|Exit Planning)"
+  priority: high
+  steps:
+    - name: "start_exit_planning"
+      action: "call vc/05_vc_exit.mdc => exit_planning_questions"
+      message: "【Exit計画】IPO・M&A等のExit戦略を策定します。"
+    - name: "wait_user_responses"
+      action: "wait_for_all_answers"
+    - name: "confirm_document_creation"
+      action: "confirm"
+      message: "収集した情報でExit計画書を作成します。よろしいですか？"
+    - name: "create_draft"
+      action: "create_markdown_file"
+      path: "{{patterns.draft_exit_planning}}"
+      template_reference: "vc/05_vc_exit.mdc => exit_planning_template"
+    - name: "notify_completion"
+      action: "notify"
+      message: |
+        Exit計画書のドラフトを作成しました：
+        {{patterns.draft_exit_planning}}
+
+#-----
+# IPO Readiness Assessment
+#-----
+- trigger: "(IPO準備評価|IPO Readiness)"
+  priority: high
+  steps:
+    - name: "start_ipo_assessment"
+      action: "call vc/05_vc_exit.mdc => ipo_readiness_questions"
+      message: "【IPO準備評価】IPO準備状況の詳細評価を実施します。"
+    - name: "wait_user_responses"
+      action: "wait_for_all_answers"
+    - name: "confirm_document_creation"
+      action: "confirm"
+      message: "収集した情報でIPO準備評価レポートを作成します。よろしいですか？"
+    - name: "create_draft"
+      action: "create_markdown_file"
+      path: "{{patterns.draft_ipo_readiness}}"
+      template_reference: "vc/05_vc_exit.mdc => ipo_readiness_template"
+    - name: "notify_completion"
+      action: "notify"
+      message: |
+        IPO準備評価レポートのドラフトを作成しました：
+        {{patterns.draft_ipo_readiness}}
+
+#-----
+# Return Analysis
+#-----
+- trigger: "(リターン分析|Return Analysis)"
+  priority: high
+  steps:
+    - name: "start_return_analysis"
+      action: "call vc/05_vc_exit.mdc => return_analysis_questions"
+      message: "【リターン分析】投資リターンとパフォーマンス分析を実施します。"
+    - name: "wait_user_responses"
+      action: "wait_for_all_answers"
+    - name: "confirm_document_creation"
+      action: "confirm"
+      message: "収集した情報でリターン分析レポートを作成します。よろしいですか？"
+    - name: "create_draft"
+      action: "create_markdown_file"
+      path: "{{patterns.draft_return_analysis}}"
+      template_reference: "vc/05_vc_exit.mdc => return_analysis_template"
+    - name: "notify_completion"
+      action: "notify"
+      message: |
+        リターン分析レポートのドラフトを作成しました：
+        {{patterns.draft_return_analysis}}
+
+#============================
+# 補助機能
+#============================
+
+#-----
+# VC業界トレンド調査
+#-----
+- trigger: "(VC業界トレンド|VC Market Trends)"
+  priority: high
+  steps:
+    - name: "collect_trend_requirements"
+      action: "ask_questions"
+      questions:
+        - key: "focus_sector"
+          question: "注目する業界・セクターを入力してください（複数可、カンマ区切り）"
+          required: true
+        - key: "analysis_period"
+          question: "分析期間を選択してください"
+          options:
+            - "過去6ヶ月"
+            - "過去1年"
+            - "過去2年"
+          default: "過去1年"
+          required: true
+        - key: "focus_stage"
+          question: "注目する投資ステージを選択してください"
+          options:
+            - "Seed/Pre-A"
+            - "Series A"
+            - "Series B/C"
+            - "Later Stage"
+            - "全ステージ"
+          default: "全ステージ"
+          required: true
+      store_as: "trend_params"
+    - name: "confirm_trend_analysis"
+      action: "confirm"
+      message: "以下の条件でVC業界トレンド分析を実施します：\n\nセクター: {{trend_params.focus_sector}}\n期間: {{trend_params.analysis_period}}\nステージ: {{trend_params.focus_stage}}\n\nWeb検索を開始してよろしいですか？"
+    - name: "web_research_vc_trends"
+      action: "web_search"
+      search_term: "VC 投資動向 {{trend_params.focus_sector}} {{trend_params.analysis_period}} トレンド 2024 2025"
+      explanation: "VC業界の投資動向とトレンドを調査します"
+      store_as: "vc_trends_data"
+    - name: "web_research_funding_data"
+      action: "web_search"
+      search_term: "{{trend_params.focus_sector}} 資金調達 {{trend_params.focus_stage}} 統計 データ"
+      explanation: "資金調達データと統計情報を収集します"
+      store_as: "funding_data"
+    - name: "web_research_valuations"
+      action: "web_search"
+      search_term: "{{trend_params.focus_sector}} バリュエーション マルチプル {{trend_params.focus_stage}}"
+      explanation: "バリュエーション動向を調査します"
+      store_as: "valuation_data"
+    - name: "analyze_trend_research"
+      action: "analyze"
+      data: ["{{vc_trends_data}}", "{{funding_data}}", "{{valuation_data}}"]
+      instructions: "収集したVC業界データを分析し、投資トレンド、資金調達動向、バリュエーション傾向、投資機会を評価します"
+      store_as: "trend_analysis_results"
+    - name: "create_draft"
+      action: "create_markdown_file"
+      path: "{{patterns.flow_vc}}/vc_market_trends_{{trend_params.focus_sector | slugify}}.md"
+      template_reference: "vc/06_vc_market_intel.mdc => market_trends_template"
+      data_mapping:
+        focus_sector: "{{trend_params.focus_sector}}"
+        analysis_period: "{{trend_params.analysis_period}}"
+        focus_stage: "{{trend_params.focus_stage}}"
+        investment_trends: "{{trend_analysis_results.investment_trends}}"
+        funding_analysis: "{{trend_analysis_results.funding_analysis}}"
+        valuation_trends: "{{trend_analysis_results.valuation_trends}}"
+        market_implications: "{{trend_analysis_results.market_implications}}"
+    - name: "notify_completion"
+      action: "notify"
+      message: |
+        VC業界トレンド分析レポートのドラフトを作成しました：
+        {{patterns.flow_vc}}/vc_market_trends_{{trend_params.focus_sector | slugify}}.md
+        
+        Web検索結果をもとに投資動向、資金調達トレンド、バリュエーション分析をまとめました。
+        修正後「確定反映して」と入力するとStockディレクトリに保存されます。

@@ -1,0 +1,653 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# ========== 03_vc_investment_decision.mdc ==================
+# Investment Decision フェーズ
+# 投資判断・投資実行に関する成果物作成プロセス
+
+#============================
+# Investment Memo - 質問セット
+#============================
+investment_memo_questions:
+  - key: "target_company"
+    question: "投資対象企業名を入力してください"
+    required: true
+    
+  - key: "investment_thesis"
+    question: "投資テーゼを簡潔に説明してください（なぜこの企業に投資すべきか）"
+    required: true
+    
+  - key: "market_opportunity"
+    question: "市場機会の詳細（市場規模、成長性、構造変化）を教えてください"
+    required: true
+    
+  - key: "competitive_advantages"
+    question: "企業の競合優位性・差別化要因を詳細に教えてください"
+    required: true
+    
+  - key: "business_model_strength"
+    question: "ビジネスモデルの強みとスケーラビリティを教えてください"
+    required: true
+    
+  - key: "team_assessment"
+    question: "経営チームの評価（経験、実績、ビジョン）を教えてください"
+    required: true
+    
+  - key: "financial_performance"
+    question: "財務パフォーマンス（売上成長、収益性、キャッシュフロー）を教えてください"
+    required: true
+    
+  - key: "investment_amount"
+    question: "投資金額を入力してください"
+    required: true
+    
+  - key: "ownership_percentage"
+    question: "取得予定持分比率（%）を入力してください"
+    required: true
+    
+  - key: "valuation_rationale"
+    question: "バリュエーションの根拠・妥当性を説明してください"
+    required: true
+    
+  - key: "exit_strategy"
+    question: "想定Exit戦略（IPO/M&A）とタイムラインを教えてください"
+    required: true
+    
+  - key: "risk_mitigation"
+    question: "主要リスクとその軽減策を教えてください"
+    required: true
+    
+  - key: "value_add_plan"
+    question: "投資後の価値創造プラン（支援領域、リソース提供）を教えてください"
+    required: true
+
+#============================
+# Investment Memo - テンプレート
+#============================
+investment_memo_template: |
+  # Investment Memo
+  
+  **日付**: {{today}}  
+  **作成者**: [投資担当者名]  
+  **対象企業**: {{target_company}}  
+  **投資金額**: {{investment_amount}}  
+  **持分取得**: {{ownership_percentage}}%
+  
+  ## 📋 Executive Summary
+  
+  ### 投資テーゼ
+  {{investment_thesis}}
+  
+  ### 投資ハイライト
+  - **市場機会**: [要約]
+  - **競合優位性**: [要約]
+  - **チーム**: [要約]
+  - **財務**: [要約]
+  - **Exit可能性**: [要約]
+  
+  ## 🌍 市場機会
+  
+  ### 市場分析
+  {{market_opportunity}}
+  
+  ### 成長ドライバー
+  - [要因1]
+  - [要因2]
+  - [要因3]
+  
+  ## 🎯 競合優位性
+  
+  ### 差別化要因
+  {{competitive_advantages}}
+  
+  ### 参入障壁
+  - [障壁1]
+  - [障壁2]
+  - [障壁3]
+  
+  ## 💼 ビジネスモデル
+  
+  ### モデルの強み
+  {{business_model_strength}}
+  
+  ### スケーラビリティ
+  - [要素1]
+  - [要素2]
+  - [要素3]
+  
+  ## 👥 経営チーム
+  
+  ### チーム評価
+  {{team_assessment}}
+  
+  ### キーパーソン
+  | 役職 | 氏名 | 経歴・実績 |
+  |------|------|-----------|
+  | CEO | [名前] | [経歴] |
+  | CTO | [名前] | [経歴] |
+  | [役職] | [名前] | [経歴] |
+  
+  ## 📊 財務分析
+  
+  ### パフォーマンス
+  {{financial_performance}}
+  
+  ### 主要メトリクス
+  | 項目 | 現在 | 1年後予想 | 2年後予想 |
+  |------|------|----------|----------|
+  | 売上 | [金額] | [金額] | [金額] |
+  | ARR | [金額] | [金額] | [金額] |
+  | Gross Margin | [%] | [%] | [%] |
+  | Burn Rate | [金額] | [金額] | [金額] |
+  
+  ## 💰 投資条件
+  
+  ### 投資概要
+  - **投資金額**: {{investment_amount}}
+  - **持分比率**: {{ownership_percentage}}%
+  - **投資ラウンド**: [Series A/B/C等]
+  - **リード投資家**: [Yes/No]
+  
+  ### バリュエーション
+  {{valuation_rationale}}
+  
+  ## 🚪 Exit戦略
+  
+  ### Exit計画
+  {{exit_strategy}}
+  
+  ### 想定リターン
+  | シナリオ | Exit時企業価値 | 投資倍率 | IRR |
+  |----------|---------------|----------|-----|
+  | ベース | [金額] | [倍] | [%] |
+  | アップサイド | [金額] | [倍] | [%] |
+  | ダウンサイド | [金額] | [倍] | [%] |
+  
+  ## ⚠️ リスク分析
+  
+  ### 主要リスク・軽減策
+  {{risk_mitigation}}
+  
+  ### リスクマトリクス
+  | リスク | 発生確率 | 影響度 | 軽減策 |
+  |--------|----------|--------|--------|
+  | [リスク1] | [高/中/低] | [高/中/低] | [対策] |
+  | [リスク2] | [高/中/低] | [高/中/低] | [対策] |
+  | [リスク3] | [高/中/低] | [高/中/低] | [対策] |
+  
+  ## 🤝 投資後支援
+  
+  ### Value Add計画
+  {{value_add_plan}}
+  
+  ### 支援領域
+  - [ ] 戦略策定支援
+  - [ ] 事業開発・パートナーシップ
+  - [ ] 人材採用支援
+  - [ ] 次回資金調達支援
+  - [ ] 海外展開支援
+  - [ ] 技術・プロダクト開発支援
+  
+  ## 📋 投資推奨
+  
+  ### 推奨決定
+  - [ ] **INVEST**: 投資実行を推奨
+  - [ ] **CONDITIONAL**: 条件付き投資推奨
+  - [ ] **PASS**: 投資見送り
+  
+  ### 推奨理由
+  
+  
+  ### 投資条件
+  1. 
+  2. 
+  3. 
+  
+  ## 📝 Next Steps
+  
+  ### アクションアイテム
+  1. **投資委員会プレゼン**: [日程]
+  2. **Term Sheet交渉**: [期限]
+  3. **DD完了**: [期限]
+  4. **最終契約**: [期限]
+  
+  ---
+  *この Investment Memo は投資委員会での検討資料であり、最終的な投資判断は委員会決議によります。*
+
+#============================
+# Term Sheet - 質問セット
+#============================
+term_sheet_questions:
+  - key: "target_company"
+    question: "投資対象企業名を入力してください"
+    required: true
+    
+  - key: "investment_amount"
+    question: "投資金額を入力してください"
+    required: true
+    
+  - key: "pre_money_valuation"
+    question: "プレマネーバリュエーションを入力してください"
+    required: true
+    
+  - key: "security_type"
+    question: "証券の種類を選択してください"
+    options:
+      - "優先株式"
+      - "普通株式"
+      - "転換社債"
+      - "SAFE"
+      - "その他"
+    required: true
+    
+  - key: "liquidation_preference"
+    question: "清算優先権の倍率を入力してください（例：1x, 2x）"
+    required: true
+    
+  - key: "participation_rights"
+    question: "参加権の有無を選択してください"
+    options:
+      - "参加権あり"
+      - "参加権なし"
+      - "キャップ付き参加権"
+    required: true
+    
+  - key: "anti_dilution"
+    question: "希薄化防止条項を選択してください"
+    options:
+      - "加重平均（Full Ratchet）"
+      - "加重平均（Narrow Based）"
+      - "加重平均（Broad Based）"
+      - "なし"
+    required: true
+    
+  - key: "board_composition"
+    question: "取締役会構成を教えてください"
+    required: true
+    
+  - key: "protective_provisions"
+    question: "保護条項の内容を教えてください"
+    required: false
+    
+  - key: "drag_along_rights"
+    question: "強制売却権（Drag Along）の有無を選択してください"
+    options:
+      - "あり"
+      - "なし"
+    required: true
+    
+  - key: "tag_along_rights"
+    question: "共同売却権（Tag Along）の有無を選択してください"
+    options:
+      - "あり"
+      - "なし"
+    required: true
+    
+  - key: "vesting_schedule"
+    question: "創業者の株式ベスティングスケジュールを教えてください"
+    required: true
+    
+  - key: "employee_option_pool"
+    question: "従業員ストックオプションプールの割合（%）を入力してください"
+    required: false
+
+#============================
+# Term Sheet - テンプレート
+#============================
+term_sheet_template: |
+  # Term Sheet
+  
+  **日付**: {{today}}  
+  **投資家**: [ファンド名]  
+  **対象企業**: {{target_company}}
+  
+  ## 💰 投資概要
+  
+  | 項目 | 詳細 |
+  |------|------|
+  | **投資金額** | {{investment_amount}} |
+  | **プレマネーバリュエーション** | {{pre_money_valuation}} |
+  | **ポストマネーバリュエーション** | [計算値] |
+  | **証券の種類** | {{security_type}} |
+  | **投資家持分** | [計算値]% |
+  
+  ## 📜 投資条件
+  
+  ### 証券条件
+  - **証券タイプ**: {{security_type}}
+  - **清算優先権**: {{liquidation_preference}}
+  - **参加権**: {{participation_rights}}
+  - **希薄化防止**: {{anti_dilution}}
+  
+  ### 議決権・取締役会
+  {{board_composition}}
+  
+  ### 保護条項
+  {{#protective_provisions}}
+  {{protective_provisions}}
+  {{/protective_provisions}}
+  {{^protective_provisions}}
+  標準的な保護条項を適用
+  - 予算・事業計画の承認
+  - 重要な契約の承認
+  - 追加の資金調達
+  - M&A・IPOの承認
+  {{/protective_provisions}}
+  
+  ## 🔄 譲渡制限・共同投資権
+  
+  ### 譲渡制限
+  - **強制売却権 (Drag Along)**: {{drag_along_rights}}
+  - **共同売却権 (Tag Along)**: {{tag_along_rights}}
+  - **先買権 (Right of First Refusal)**: あり
+  
+  ### 共同投資権
+  - **優先引受権 (Pro Rata Rights)**: あり
+  - **追加投資権**: 条件付きであり
+  
+  ## 👥 経営・ガバナンス
+  
+  ### ベスティング
+  {{vesting_schedule}}
+  
+  ### ストックオプション
+  {{#employee_option_pool}}
+  - **オプションプール**: {{employee_option_pool}}%
+  {{/employee_option_pool}}
+  {{^employee_option_pool}}
+  - **オプションプール**: 10-15%（要協議）
+  {{/employee_option_pool}}
+  
+  ## 📊 情報提供・報告
+  
+  ### 定期報告
+  - **月次レポート**: 財務情報、KPI、事業進捗
+  - **四半期報告**: 取締役会資料、詳細財務分析
+  - **年次報告**: 監査済み財務諸表、事業計画
+  
+  ### 検査権
+  - 帳簿・記録の検査権
+  - 会計監査への立会権
+  
+  ## ⏰ 実行条件・期限
+  
+  ### 前提条件
+  - [ ] 詳細なDue Diligence完了
+  - [ ] 法的・税務DD完了
+  - [ ] 最終投資契約締結
+  - [ ] 取締役会・株主総会決議
+  - [ ] 規制当局承認（必要に応じて）
+  
+  ### スケジュール
+  - **Term Sheet署名**: {{today}}
+  - **DD完了期限**: [日付]
+  - **最終契約締結**: [日付]
+  - **資金実行**: [日付]
+  
+  ## 📝 その他条件
+  
+  ### 独占交渉期間
+  - 期間: 60日間
+  - 対象: 本Term Sheet記載条件での投資交渉
+  
+  ### 費用負担
+  - 投資家の法務費用: 企業負担（上限: ¥[金額]）
+  - DD費用: 投資家負担
+  
+  ### 準拠法・管轄
+  - 準拠法: 日本法
+  - 管轄裁判所: 東京地方裁判所
+  
+  ## ⚖️ 法的留保事項
+  
+  この Term Sheet は投資意向の表明であり、法的拘束力を持つ契約ではありません。最終的な投資は、詳細なDue Diligenceと投資契約の締結により実行されます。
+  
+  ---
+  **投資家署名**: _________________  
+  **企業署名**: _________________  
+  **日付**: {{today}}
+
+#============================
+# Valuation Analysis - 質問セット
+#============================
+valuation_questions:
+  - key: "target_company"
+    question: "バリュエーション分析対象企業名を入力してください"
+    required: true
+    
+  - key: "financial_data"
+    question: "直近の財務データ（売上、利益、キャッシュフロー）を教えてください"
+    required: true
+    
+  - key: "growth_projections"
+    question: "今後3-5年の成長予測を教えてください"
+    required: true
+    
+  - key: "comparable_companies"
+    question: "類似上場企業があれば教えてください（3-5社）"
+    required: false
+    
+  - key: "comparable_transactions"
+    question: "類似のM&A事例があれば教えてください"
+    required: false
+    
+  - key: "discount_rate"
+    question: "想定する割引率（WACC）があれば教えてください"
+    required: false
+    
+  - key: "terminal_growth_rate"
+    question: "想定する永続成長率があれば教えてください"
+    required: false
+    
+  - key: "key_value_drivers"
+    question: "主要な価値ドライバーを教えてください"
+    required: true
+
+#============================
+# Valuation Analysis - テンプレート
+#============================
+valuation_template: |
+  # バリュエーション分析レポート
+  
+  **作成日**: {{today}}  
+  **分析者**: [分析者名]  
+  **対象企業**: {{target_company}}
+  
+  ## 📊 財務データ概要
+  
+  ### 直近財務状況
+  {{financial_data}}
+  
+  ### 成長予測
+  {{growth_projections}}
+  
+  ## 🔍 バリュエーション手法
+  
+  ### 1. DCF法（Discounted Cash Flow）
+  
+  #### 前提条件
+  - **割引率 (WACC)**: {{#discount_rate}}{{discount_rate}}{{/discount_rate}}{{^discount_rate}}12-15%{{/discount_rate}}
+  - **永続成長率**: {{#terminal_growth_rate}}{{terminal_growth_rate}}{{/terminal_growth_rate}}{{^terminal_growth_rate}}2-3%{{/terminal_growth_rate}}
+  - **予測期間**: 5年
+  
+  #### キャッシュフロー予測
+  | 年度 | Year 1 | Year 2 | Year 3 | Year 4 | Year 5 |
+  |------|--------|--------|--------|--------|--------|
+  | 売上 | [予測] | [予測] | [予測] | [予測] | [予測] |
+  | EBITDA | [予測] | [予測] | [予測] | [予測] | [予測] |
+  | FCF | [予測] | [予測] | [予測] | [予測] | [予測] |
+  
+  #### DCF算定結果
+  - **事業価値**: [金額]
+  - **企業価値**: [金額]
+  - **株主価値**: [金額]
+  
+  ### 2. マルチプル法
+  
+  #### 類似企業比較
+  {{#comparable_companies}}
+  {{comparable_companies}}
+  {{/comparable_companies}}
+  {{^comparable_companies}}
+  **類似企業データ収集が必要**
+  - [企業1]: [マルチプル]
+  - [企業2]: [マルチプル]
+  - [企業3]: [マルチプル]
+  {{/comparable_companies}}
+  
+  #### 取引事例比較
+  {{#comparable_transactions}}
+  {{comparable_transactions}}
+  {{/comparable_transactions}}
+  {{^comparable_transactions}}
+  **類似取引事例の調査が必要**
+  {{/comparable_transactions}}
+  
+  #### マルチプル算定結果
+  | マルチプル | 最小値 | 中央値 | 最大値 | 適用値 |
+  |------------|--------|--------|--------|--------|
+  | EV/Revenue | [倍] | [倍] | [倍] | [倍] |
+  | EV/EBITDA | [倍] | [倍] | [倍] | [倍] |
+  | P/E | [倍] | [倍] | [倍] | [倍] |
+  
+  ### 3. リスク調整後現在価値法
+  
+  #### リスク要因分析
+  - **市場リスク**: [評価]
+  - **技術リスク**: [評価]
+  - **競合リスク**: [評価]
+  - **実行リスク**: [評価]
+  
+  ## 🎯 価値ドライバー分析
+  
+  ### 主要価値ドライバー
+  {{key_value_drivers}}
+  
+  ### 感応度分析
+  | シナリオ | 売上成長率 | EBITDA率 | 企業価値 |
+  |----------|------------|----------|----------|
+  | ベース | [%] | [%] | [金額] |
+  | 楽観 | [%] | [%] | [金額] |
+  | 悲観 | [%] | [%] | [金額] |
+  
+  ## 📋 バリュエーション・サマリー
+  
+  ### 手法別バリュエーション
+  | 手法 | 最小値 | 中央値 | 最大値 |
+  |------|--------|--------|--------|
+  | DCF法 | [金額] | [金額] | [金額] |
+  | マルチプル法 | [金額] | [金額] | [金額] |
+  | 総合評価 | [金額] | [金額] | [金額] |
+  
+  ### 推奨バリュエーション
+  - **企業価値**: [金額]
+  - **根拠**: 
+  - **信頼度**: [高/中/低]
+  
+  ## 🎢 リスク・機会要因
+  
+  ### アップサイド要因
+  - 
+  - 
+  - 
+  
+  ### ダウンサイド要因
+  - 
+  - 
+  - 
+  
+  ## 📝 バリュエーション結論
+  
+  ### 投資推奨価格レンジ
+  - **最低価格**: [金額]
+  - **目標価格**: [金額]
+  - **最高価格**: [金額]
+  
+  ### 投資判断への示唆
+  
+  
+  ---
+  *このバリュエーション分析は現時点での評価であり、市場環境や企業状況の変化により見直しが必要です。*
+
+#============================
+# 投資委員会プレゼン - 質問セット
+#============================
+ic_presentation_questions:
+  - key: "target_company"
+    question: "投資委員会で検討する企業名を入力してください"
+    required: true
+    
+  - key: "investment_summary"
+    question: "投資概要を簡潔に説明してください（30秒ピッチ）"
+    required: true
+    
+  - key: "key_metrics"
+    question: "投資判断に重要な主要メトリクスを教えてください"
+    required: true
+    
+  - key: "competitive_positioning"
+    question: "競合ポジショニングの要点を教えてください"
+    required: true
+    
+  - key: "investment_highlights"
+    question: "投資ハイライト（3-5個）を教えてください"
+    required: true
+    
+  - key: "key_risks"
+    question: "主要リスク（3-5個）を教えてください"
+    required: true
+    
+  - key: "expected_returns"
+    question: "期待リターン（ベース・アップサイド・ダウンサイド）を教えてください"
+    required: true
+
+#============================
+# 投資委員会プレゼン - テンプレート
+#============================
+ic_presentation_template: |
+  # 投資委員会プレゼンテーション
+  
+  **日付**: {{today}}  
+  **対象企業**: {{target_company}}  
+  **担当者**: [投資担当者名]
+  
+  ## 🎯 投資概要（30秒ピッチ）
+  
+  {{investment_summary}}
+  
+  ## 📊 投資ハイライト
+  
+  {{investment_highlights}}
+  
+  ## 📈 主要メトリクス
+  
+  {{key_metrics}}
+  
+  ## 🏁 競合ポジショニング
+  
+  {{competitive_positioning}}
+  
+  ## ⚠️ 主要リスク
+  
+  {{key_risks}}
+  
+  ## 💰 期待リターン
+  
+  {{expected_returns}}
+  
+  ## 📋 投資推奨
+  
+  ### 推奨決定
+  - [ ] **APPROVE**: 投資承認
+  - [ ] **CONDITIONAL**: 条件付き承認
+  - [ ] **DECLINE**: 投資見送り
+  
+  ### 投票結果
+  - **賛成**: [人数]
+  - **反対**: [人数]
+  - **保留**: [人数]
+  
+  ---
+  *投資委員会での最終決定事項*

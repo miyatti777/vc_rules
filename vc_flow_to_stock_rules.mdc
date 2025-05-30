@@ -1,0 +1,208 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# ========== vc_flow_to_stock_rules.mdc ==================
+# VC特化 Flow to Stock 転送ルール
+# VC投資プロセスのドキュメント確定・移動フロー
+
+path_reference: "vc/vc_paths.mdc"
+
+flow_to_stock_triggers:
+
+#-----
+# 1. 投資機会評価ドキュメントの確定
+#-----
+- name: "opportunity_assessment_finalization"
+  source_pattern: "{{patterns.draft_opportunity_assessment}}"
+  trigger_event: "確定反映"
+  target_path_template: "{{patterns.stock_opportunity_assessment}}"
+  steps:
+    - "{{execute_flow_to_stock_script}}"
+  message: "投資機会評価レポートをStockディレクトリに移動しました"
+
+#-----
+# 2. 初期スクリーニングドキュメントの確定
+#-----
+- name: "screening_finalization"
+  source_pattern: "{{patterns.draft_screening}}"
+  trigger_event: "確定反映"
+  target_path_template: "{{patterns.stock_screening}}"
+  steps:
+    - "{{execute_flow_to_stock_script}}"
+  message: "初期スクリーニングレポートをStockディレクトリに移動しました"
+
+#-----
+# 3. 市場分析ドキュメントの確定
+#-----
+- name: "market_analysis_finalization"
+  source_pattern: "{{patterns.draft_market_analysis}}"
+  trigger_event: "確定反映"
+  target_path_template: "{{patterns.stock_market_analysis}}"
+  steps:
+    - "{{execute_flow_to_stock_script}}"
+  message: "市場分析レポートをStockディレクトリに移動しました"
+
+#-----
+# 4. 商業DDドキュメントの確定
+#-----
+- name: "commercial_dd_finalization"
+  source_pattern: "{{patterns.draft_commercial_dd}}"
+  trigger_event: "確定反映"
+  target_path_template: "{{patterns.stock_commercial_dd}}"
+  steps:
+    - "{{execute_flow_to_stock_script}}"
+  message: "商業DDレポートをStockディレクトリに移動しました"
+
+#-----
+# 5. 財務DDドキュメントの確定
+#-----
+- name: "financial_dd_finalization"
+  source_pattern: "{{patterns.draft_financial_dd}}"
+  trigger_event: "確定反映"
+  target_path_template: "{{patterns.stock_financial_dd}}"
+  steps:
+    - "{{execute_flow_to_stock_script}}"
+  message: "財務DDレポートをStockディレクトリに移動しました"
+
+#-----
+# 6. 技術DDドキュメントの確定
+#-----
+- name: "technical_dd_finalization"
+  source_pattern: "{{patterns.draft_technical_dd}}"
+  trigger_event: "確定反映"
+  target_path_template: "{{patterns.stock_technical_dd}}"
+  steps:
+    - "{{execute_flow_to_stock_script}}"
+  message: "技術DDレポートをStockディレクトリに移動しました"
+
+#-----
+# 7. 法務DDドキュメントの確定
+#-----
+- name: "legal_dd_finalization"
+  source_pattern: "{{patterns.draft_legal_dd}}"
+  trigger_event: "確定反映"
+  target_path_template: "{{patterns.stock_legal_dd}}"
+  steps:
+    - "{{execute_flow_to_stock_script}}"
+  message: "法務DDレポートをStockディレクトリに移動しました"
+
+#-----
+# 8. 経営陣評価ドキュメントの確定
+#-----
+- name: "management_assessment_finalization"
+  source_pattern: "{{patterns.draft_management_assessment}}"
+  trigger_event: "確定反映"
+  target_path_template: "{{patterns.stock_management_assessment}}"
+  steps:
+    - "{{execute_flow_to_stock_script}}"
+  message: "経営陣評価レポートをStockディレクトリに移動しました"
+
+#-----
+# 9. Investment Memoの確定
+#-----
+- name: "investment_memo_finalization"
+  source_pattern: "{{patterns.draft_investment_memo}}"
+  trigger_event: "確定反映"
+  target_path_template: "{{patterns.stock_investment_memo}}"
+  steps:
+    - "{{execute_flow_to_stock_script}}"
+  message: "Investment MemoをStockディレクトリに移動しました"
+
+#-----
+# 10. Term Sheetの確定
+#-----
+- name: "term_sheet_finalization"
+  source_pattern: "{{patterns.draft_term_sheet}}"
+  trigger_event: "確定反映"
+  target_path_template: "{{patterns.stock_term_sheet}}"
+  steps:
+    - "{{execute_flow_to_stock_script}}"
+  message: "Term SheetをStockディレクトリに移動しました"
+
+#-----
+# 11. バリュエーション分析の確定
+#-----
+- name: "valuation_finalization"
+  source_pattern: "{{patterns.draft_valuation}}"
+  trigger_event: "確定反映"
+  target_path_template: "{{patterns.stock_valuation}}"
+  steps:
+    - "{{execute_flow_to_stock_script}}"
+  message: "バリュエーション分析をStockディレクトリに移動しました"
+
+#-----
+# 12. 投資委員会資料の確定
+#-----
+- name: "ic_presentation_finalization"
+  source_pattern: "{{patterns.draft_ic_presentation}}"
+  trigger_event: "確定反映"
+  target_path_template: "{{patterns.stock_ic_presentation}}"
+  steps:
+    - "{{execute_flow_to_stock_script}}"
+  message: "投資委員会資料をStockディレクトリに移動しました"
+
+#-----
+# 13. ポートフォリオ監視レポートの確定
+#-----
+- name: "portfolio_monitoring_finalization"
+  source_pattern: "{{patterns.draft_portfolio_monitoring}}"
+  trigger_event: "確定反映"
+  target_path_template: "{{patterns.stock_portfolio_monitoring}}"
+  steps:
+    - "{{execute_flow_to_stock_script}}"
+  message: "ポートフォリオ監視レポートをStockディレクトリに移動しました"
+
+#-----
+# 14. 取締役会資料の確定
+#-----
+- name: "board_meeting_finalization"
+  source_pattern: "{{patterns.draft_board_meeting}}"
+  trigger_event: "確定反映"
+  target_path_template: "{{patterns.stock_board_meetings}}/board_meeting_{{meeting_date}}.md"
+  steps:
+    - "{{execute_flow_to_stock_script}}"
+  message: "取締役会資料をStockディレクトリに移動しました"
+
+#-----
+# 15. Exit計画の確定
+#-----
+- name: "exit_planning_finalization"
+  source_pattern: "{{patterns.draft_exit_planning}}"
+  trigger_event: "確定反映"
+  target_path_template: "{{patterns.stock_exit_planning}}"
+  steps:
+    - "{{execute_flow_to_stock_script}}"
+  message: "Exit計画をStockディレクトリに移動しました"
+
+#-----
+# 16. IPO準備評価の確定
+#-----
+- name: "ipo_readiness_finalization"
+  source_pattern: "{{patterns.draft_ipo_readiness}}"
+  trigger_event: "確定反映"
+  target_path_template: "{{patterns.stock_ipo_readiness}}"
+  steps:
+    - "{{execute_flow_to_stock_script}}"
+  message: "IPO準備評価をStockディレクトリに移動しました"
+
+#-----
+# 17. リターン分析の確定
+#-----
+- name: "return_analysis_finalization"
+  source_pattern: "{{patterns.draft_return_analysis}}"
+  trigger_event: "確定反映"
+  target_path_template: "{{patterns.stock_return_analysis}}"
+  steps:
+    - "{{execute_flow_to_stock_script}}"
+  message: "リターン分析をStockディレクトリに移動しました"
+
+#-----
+# 汎用スクリプト実行コマンド
+#-----
+execute_flow_to_stock_script: |
+  bash {{dirs.scripts}}/flow_to_stock.sh \
+    --source-pattern "{{source_pattern}}" \
+    --target-path "{{target_path_template}}" \
+    --create-dirs
