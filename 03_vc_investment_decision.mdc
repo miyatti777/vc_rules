@@ -1,6 +1,6 @@
 ---
-description:
-globs:
+description: 投資判断・投資実行に関する成果物作成プロセス
+globs: 
 alwaysApply: false
 ---
 # ========== 03_vc_investment_decision.mdc ==================

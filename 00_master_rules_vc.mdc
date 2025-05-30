@@ -1,7 +1,7 @@
 ---
-description:
-globs:
-alwaysApply: false
+description: 
+globs: 
+alwaysApply: true
 ---
 # ========== 最終更新: 2025-05-29 16:00 (VC特化AIPM Ruleセット v1.0)==================
 # 00_master_rules_vc.mdc

@@ -1,6 +1,6 @@
 ---
-description:
-globs:
+description: 投資機会の発掘・評価・初期スクリーニングプロセス
+globs: 
 alwaysApply: false
 ---
 # ========== 01_vc_deal_sourcing.mdc ==================
